@@ -17,11 +17,6 @@ import joblib
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['TP_CPP_MIN_LOG_LEVEL'] = '3'
 
-# check if GPU is available
-if not tf.config.experimental.list_physical_devices('GPU'):
-    print('No GPU was detected. Model will run on CPU.')
-else:
-    print(f'Model will run on CUDA')
 
 def generate_customer_data(sample_size: int, noise_factor: float):
     np.random.seed(42)  
@@ -119,6 +114,12 @@ def create_model(learning_rate: float, dropout_rate: float, neurons_layer1: int,
 
 
 if __name__ == '__main__':
+
+    # check if GPU is available
+    if not tf.config.experimental.list_physical_devices('GPU'):
+        print('No GPU was detected. Model will run on CPU.')
+    else:
+        print(f'Model will run on CUDA')
     
     data = generate_customer_data(sample_size=10**6, noise_factor=0.1)  
     data = data.interpolate()  
